@@ -94,6 +94,20 @@ output "products_table_arn" {
   value       = aws_dynamodb_table.products.arn
 }
 
+###############################################################################
+# SSM Parameter Store (DB connection)
+###############################################################################
+
+output "db_parameter_names" {
+  description = "Names of the DB connection parameters in SSM Parameter Store."
+  value       = { for k, p in aws_ssm_parameter.db : k => p.name }
+}
+
+output "db_parameter_prefix" {
+  description = "SSM path prefix for the DB connection parameters."
+  value       = local.db_param_prefix
+}
+
 output "carts_table_name" {
   description = "Name of the DynamoDB products table."
   value       = aws_dynamodb_table.carts.name

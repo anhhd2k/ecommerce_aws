@@ -162,6 +162,40 @@ variable "products_table_name" {
   default     = "ecommerce-products"
 }
 
+###############################################################################
+# Database connection (stored in SSM Parameter Store)
+###############################################################################
+
+variable "db_host" {
+  description = "Database host / endpoint."
+  type        = string
+  default     = "localhost"
+}
+
+variable "db_port" {
+  description = "Database port."
+  type        = number
+  default     = 5432
+}
+
+variable "db_name" {
+  description = "Database name."
+  type        = string
+  default     = "ecommerce"
+}
+
+variable "db_username" {
+  description = "Database username."
+  type        = string
+  default     = "ecommerce_app"
+}
+
+variable "db_password" {
+  description = "Database password. Stored as a SecureString in SSM Parameter Store."
+  type        = string
+  sensitive   = true
+}
+
 variable "carts_table_name" {
   description = "Name of the DynamoDB products table."
   type        = string
