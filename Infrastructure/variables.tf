@@ -151,3 +151,19 @@ variable "cloudfront_price_class" {
     error_message = "cloudfront_price_class must be one of: PriceClass_All, PriceClass_200, PriceClass_100."
   }
 }
+
+###############################################################################
+# DynamoDB
+###############################################################################
+
+variable "products_table_name" {
+  description = "Name of the DynamoDB products table."
+  type        = string
+  default     = "ecommerce-products"
+}
+
+variable "carts_table_name" {
+  description = "Name of the DynamoDB products table."
+  type        = string
+  default     = "ecommerce-cart"
+}
