@@ -18,27 +18,27 @@ locals {
 
   db_parameters = {
     host = {
-      value       = var.db_host
+      value       = aws_db_instance.postgres.address
       type        = "String"
       description = "Database host / endpoint."
     }
     port = {
-      value       = tostring(var.db_port)
+      value       = tostring(aws_db_instance.postgres.port)
       type        = "String"
       description = "Database port."
     }
     name = {
-      value       = var.db_name
+      value       = aws_db_instance.postgres.db_name
       type        = "String"
       description = "Database name."
     }
     username = {
-      value       = var.db_username
+      value       = aws_db_instance.postgres.username
       type        = "String"
       description = "Database username."
     }
     password = {
-      value       = var.db_password
+      value       = random_password.db_master.result
       type        = "SecureString"
       description = "Database password (KMS-encrypted)."
     }

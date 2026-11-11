@@ -113,6 +113,44 @@ output "carts_table_name" {
   value       = aws_dynamodb_table.carts.name
 }
 
+###############################################################################
+# Application Load Balancer (internal)
+###############################################################################
+
+output "alb_arn" {
+  description = "ARN of the internal Application Load Balancer."
+  value       = aws_lb.main.arn
+}
+
+output "alb_dns_name" {
+  description = "DNS name of the internal ALB (used by service URLs)."
+  value       = aws_lb.main.dns_name
+}
+
+output "alb_target_group_arns" {
+  description = "Map of service name to target group ARN."
+  value       = { for k, tg in aws_lb_target_group.services : k => tg.arn }
+}
+
+output "service_url_parameter_names" {
+  description = "Map of service name to its SSM service-url parameter name."
+  value       = { for k, p in aws_ssm_parameter.service_url : k => p.name }
+}
+
+###############################################################################
+# ECR
+###############################################################################
+
+output "ecr_repository_urls" {
+  description = "Map of service name to ECR repository URL (for docker push)."
+  value       = { for k, r in aws_ecr_repository.services : k => r.repository_url }
+}
+
+output "ecr_repository_arns" {
+  description = "Map of service name to ECR repository ARN."
+  value       = { for k, r in aws_ecr_repository.services : k => r.arn }
+}
+
 output "carts_table_arn" {
   description = "ARN of the DynamoDB products table."
   value       = aws_dynamodb_table.products.arn

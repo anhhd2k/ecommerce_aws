@@ -166,12 +166,6 @@ variable "products_table_name" {
 # Database connection (stored in SSM Parameter Store)
 ###############################################################################
 
-variable "db_host" {
-  description = "Database host / endpoint."
-  type        = string
-  default     = "localhost"
-}
-
 variable "db_port" {
   description = "Database port."
   type        = number
@@ -190,14 +184,71 @@ variable "db_username" {
   default     = "ecommerce_app"
 }
 
-variable "db_password" {
-  description = "Database password. Stored as a SecureString in SSM Parameter Store."
+###############################################################################
+# RDS PostgreSQL
+###############################################################################
+
+variable "db_engine_version" {
+  description = "PostgreSQL engine version for the RDS instance."
   type        = string
-  sensitive   = true
+  default     = "16.15"
+}
+
+variable "db_parameter_group_family" {
+  description = "RDS DB parameter group family. Must match the major engine version (e.g. postgres16)."
+  type        = string
+  default     = "postgres16"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class."
+  type        = string
+  default     = "db.t4g.micro"
+}
+
+variable "db_allocated_storage" {
+  description = "Initial allocated storage in GiB."
+  type        = number
+  default     = 20
+}
+
+variable "db_max_allocated_storage" {
+  description = "Upper limit in GiB for RDS storage autoscaling. Set equal to db_allocated_storage to disable."
+  type        = number
+  default     = 100
+}
+
+variable "db_multi_az" {
+  description = "Deploy the RDS instance across multiple AZs for high availability."
+  type        = bool
+  default     = false
+}
+
+variable "db_backup_retention_period" {
+  description = "Number of days to retain automated backups (0 disables backups)."
+  type        = number
+  default     = 7
+}
+
+variable "db_deletion_protection" {
+  description = "Prevent the RDS instance from being destroyed via Terraform/console."
+  type        = bool
+  default     = false
 }
 
 variable "carts_table_name" {
   description = "Name of the DynamoDB products table."
   type        = string
   default     = "ecommerce-cart"
+}
+
+
+###############################################################################
+# ECR
+###############################################################################
+
+variable "ecr_image_retention_count" {
+  description = "Number of most-recent tagged images to retain per ECR repository."
+  type        = number
+  default     = 10
 }
